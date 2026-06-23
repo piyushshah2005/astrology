@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celestia — Astrology for the Modern Soul</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --midnight: #0d0b1a;
+      --deep-violet: #1a1235;
+      --cosmic-purple: #2d1f5e;
+      --nebula: #5c3d9e;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --stardust: #d4c5f0;
+      --white: #f5f0ff;
+      --muted: #8a7db5;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--midnight);
+      color: var(--stardust);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* Stars background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 55% 20%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 75% 55%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 10%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 20% 70%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 65% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 60%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 35%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 5% 90%, rgba(255,255,255,0.3) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5%;
+      backdrop-filter: blur(12px);
+      background: rgba(13, 11, 26, 0.7);
+      border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--gold-light);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--gold-light);
+    }
+
+    /* PAGES */
+    .page {
+      display: none;
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      padding-top: 70px;
+    }
+
+    .page.active { display: block; }
+
+    /* ===================== HOME ===================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 5%;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(92,61,158,0.25) 0%, transparent 70%);
+    }
+
+    .hero-eye {
+      font-size: 4rem;
+      line-height: 1;
+      margin-bottom: 2rem;
+      animation: glow-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(201,168,76,0.4)); }
+      50% { filter: drop-shadow(0 0 20px rgba(201,168,76,0.8)); }
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero h1 em {
+      color: var(--gold-light);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-desc {
+      max-width: 520px;
+      font-size: 0.95rem;
+      color: var(--stardust);
+      opacity: 0.75;
+      margin-bottom: 3rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--midnight);
+      border: none;
+      padding: 0.9rem 2.5rem;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: opacity 0.3s, transform 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* Zodiac wheel */
+    .zodiac-strip {
+      padding: 3rem 0;
+      overflow: hidden;
+      border-top: 1px solid rgba(201,168,76,0.1);
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .zodiac-track {
+      display: flex;
+      gap: 3rem;
+      animation: scroll-zodiac 30s linear infinite;
+      width: max-content;
+    }
+
+    @keyframes scroll-zodiac {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .zodiac-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      min-width: 80px;
+    }
+
+    .zodiac-item .symbol { font-size: 2rem; }
+    .zodiac-item .name {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* Services */
+    .section {
+      padding: 5rem 5%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 3rem;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: rgba(29, 20, 60, 0.6);
+      border: 1px solid rgba(201,168,76,0.12);
+      border-radius: 4px;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .card:hover {
+      border-color: rgba(201,168,76,0.35);
+      transform: translateY(-4px);
+    }
+
+    .card-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--gold-light);
+      margin-bottom: 0.7rem;
+    }
+    .card-text { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+    /* Testimonials */
+    .testimonials {
+      background: rgba(45, 31, 94, 0.2);
+      padding: 5rem 5%;
+      text-align: center;
+    }
+
+    .testimonials-inner { max-width: 800px; margin: 0 auto; }
+
+    .quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      font-style: italic;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .quote-author {
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* Newsletter */
+    .newsletter {
+      padding: 5rem 5%;
+      text-align: center;
+      background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(92,61,158,0.15) 0%, transparent 70%);
+    }
+
+    .newsletter-inner { max-width: 500px; margin: 0 auto; }
+    .newsletter h2 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .newsletter p { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+
+    .input-row {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .input-row input {
+      flex: 1;
+      background: rgba(29,20,60,0.8);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 2px;
+      padding: 0.85rem 1.2rem;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .input-row input:focus { border-color: var(--gold); }
+    .input-row input::placeholder { color: var(--muted); }
+
+    /* ===================== ABOUT ===================== */
+    .about-hero {
+      padding: 6rem 5% 3rem;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(92,61,158,0.2) 0%, transparent 60%);
+      text-align: center;
+    }
+
+    .page-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+
+    .page-subtitle {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 550px;
+      margin: 0 auto 3rem;
+    }
+
+    .about-body {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3rem 5%;
+    }
+
+    .about-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--gold-light);
+      margin-bottom: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .about-body p {
+      color: var(--stardust);
+      opacity: 0.8;
+      font-size: 0.95rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(201,168,76,0.15);
+      margin: 3rem 0;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .team-member {
+      text-align: center;
+    }
+
+    .member-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cosmic-purple), var(--nebula));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin: 0 auto 1rem;
+      border: 2px solid rgba(201,168,76,0.25);
+    }
+
+    .member-name {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+
+    .member-role {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .value-item {
+      padding: 1.5rem;
+      background: rgba(29,20,60,0.5);
+      border-left: 2px solid var(--gold);
+      border-radius: 0 4px 4px 0;
+    }
+
+    .value-item h4 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      color: var(--gold-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .value-item p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* ===================== CONTACT ===================== */
+    .contact-layout {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 4rem 5%;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-info h3 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--gold-light);
+      margin-bottom: 1rem;
+    }
+
+    .contact-info p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-detail .icon { font-size: 1.3rem; margin-top: 0.1rem; }
+    .contact-detail .info-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-detail .info-value {
+      font-size: 0.9rem;
+      color: var(--stardust);
+    }
+
+    .contact-form {
+      background: rgba(29,20,60,0.5);
+      border: 1px solid rgba(201,168,76,0.12);
+      border-radius: 4px;
+      padding: 2.5rem;
+    }
+
+    .contact-form h3 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.3rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(13,11,26,0.6);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 2px;
+      padding: 0.85rem 1rem;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--gold); }
+
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group select { appearance: none; cursor: pointer; }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(138,125,181,0.5); }
+
+    /* ===================== FAQ ===================== */
+    .faq-body {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3rem 5% 5rem;
+    }
+
+    .faq-category {
+      margin-bottom: 3rem;
+    }
+
+    .faq-category-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.3rem 0;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      color: var(--white);
+      gap: 1rem;
+      transition: color 0.3s;
+    }
+
+    .faq-question:hover { color: var(--gold-light); }
+
+    .faq-icon {
+      font-size: 1.3rem;
+      color: var(--gold);
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 0 1.5rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .faq-item.open .faq-answer { display: block; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-item.open .faq-question { color: var(--gold-light); }
+
+    /* FOOTER */
+    footer {
+      background: rgba(10, 8, 20, 0.9);
+      border-top: 1px solid rgba(201,168,76,0.1);
+      padding: 3rem 5%;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--gold-light);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: var(--gold-light); }
+
+    .footer-copy {
+      font-size: 0.78rem;
+      color: rgba(138,125,181,0.4);
+    }
+
+    @media (max-width: 680px) {
+      .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .input-row { flex-direction: column; }
+      .nav-links { gap: 1.2rem; }
+      .nav-links a { font-size: 0.72rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo" onclick="showPage('home')">✦ Celestia</span>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+    <li><a onclick="showPage('faq')" id="nav-faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<!-- ======================== HOME PAGE ======================== -->
+<div id="page-home" class="page active">
+
+  <section class="hero">
+    <div class="hero-eye">🔮</div>
+    <h1>Read the <em>Stars,</em><br>Know Yourself</h1>
+    <p class="hero-sub">Ancient wisdom for the modern seeker</p>
+    <p class="hero-desc">Celestia blends classical astrology with contemporary insight — helping you understand your birth chart, your cycles, and your place in the cosmos.</p>
+    <a class="btn-primary" onclick="showPage('about')">Explore the Universe</a>
+  </section>
+
+  <!-- Scrolling zodiac -->
+  <div class="zodiac-strip">
+    <div class="zodiac-track">
+      <div class="zodiac-item"><span class="symbol">♈</span><span class="name">Aries</span></div>
+      <div class="zodiac-item"><span class="symbol">♉</span><span class="name">Taurus</span></div>
+      <div class="zodiac-item"><span class="symbol">♊</span><span class="name">Gemini</span></div>
+      <div class="zodiac-item"><span class="symbol">♋</span><span class="name">Cancer</span></div>
+      <div class="zodiac-item"><span class="symbol">♌</span><span class="name">Leo</span></div>
+      <div class="zodiac-item"><span class="symbol">♍</span><span class="name">Virgo</span></div>
+      <div class="zodiac-item"><span class="symbol">♎</span><span class="name">Libra</span></div>
+      <div class="zodiac-item"><span class="symbol">♏</span><span class="name">Scorpio</span></div>
+      <div class="zodiac-item"><span class="symbol">♐</span><span class="name">Sagittarius</span></div>
+      <div class="zodiac-item"><span class="symbol">♑</span><span class="name">Capricorn</span></div>
+      <div class="zodiac-item"><span class="symbol">♒</span><span class="name">Aquarius</span></div>
+      <div class="zodiac-item"><span class="symbol">♓</span><span class="name">Pisces</span></div>
+      <!-- Duplicate for seamless loop -->
+      <div class="zodiac-item"><span class="symbol">♈</span><span class="name">Aries</span></div>
+      <div class="zodiac-item"><span class="symbol">♉</span><span class="name">Taurus</span></div>
+      <div class="zodiac-item"><span class="symbol">♊</span><span class="name">Gemini</span></div>
+      <div class="zodiac-item"><span class="symbol">♋</span><span class="name">Cancer</span></div>
+      <div class="zodiac-item"><span class="symbol">♌</span><span class="name">Leo</span></div>
+      <div class="zodiac-item"><span class="symbol">♍</span><span class="name">Virgo</span></div>
+      <div class="zodiac-item"><span class="symbol">♎</span><span class="name">Libra</span></div>
+      <div class="zodiac-item"><span class="symbol">♏</span><span class="name">Scorpio</span></div>
+      <div class="zodiac-item"><span class="symbol">♐</span><span class="name">Sagittarius</span></div>
+      <div class="zodiac-item"><span class="symbol">♑</span><span class="name">Capricorn</span></div>
+      <div class="zodiac-item"><span class="symbol">♒</span><span class="name">Aquarius</span></div>
+      <div class="zodiac-item"><span class="symbol">♓</span><span class="name">Pisces</span></div>
+    </div>
+  </div>
+
+  <!-- Services -->
+  <section class="section">
+    <p class="section-label">What We Offer</p>
+    <h2 class="section-title">Cosmic Guidance,<br>Grounded in Truth</h2>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🌙</div>
+        <h3 class="card-title">Birth Chart Reading</h3>
+        <p class="card-text">A detailed map of the sky at your exact moment of birth — revealing your personality, purpose, and potential.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">☀️</div>
+        <h3 class="card-title">Solar Return</h3>
+        <p class="card-text">Every birthday, the Sun returns to its natal position. Learn what themes will define your personal year ahead.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💫</div>
+        <h3 class="card-title">Synastry & Compatibility</h3>
+        <p class="card-text">Explore the celestial chemistry between two people — for romance, friendship, or any meaningful relationship.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🪐</div>
+        <h3 class="card-title">Transit Forecasts</h3>
+        <p class="card-text">Track where the planets are now and how they're activating your natal chart for timely, actionable insight.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⭐</div>
+        <h3 class="card-title">Rising Sign Deep Dive</h3>
+        <p class="card-text">Your Ascendant shapes how the world sees you and how you navigate it — often more than your Sun sign.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌠</div>
+        <h3 class="card-title">Lunar Cycle Planning</h3>
+        <p class="card-text">Align your intentions with the Moon's phases — from new beginnings at the New Moon to releases at the Full Moon.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  <div class="testimonials">
+    <div class="testimonials-inner">
+      <p class="quote">"My reading with Celestia was the most clarifying conversation I've had about myself in years. It felt less like fortune-telling and more like finally understanding my own operating system."</p>
+      <p class="quote-author">— Priya M., Scorpio Rising</p>
+    </div>
+  </div>
+
+  <!-- Newsletter -->
+  <section class="newsletter">
+    <div class="newsletter-inner">
+      <h2>Monthly Cosmic Letter</h2>
+      <p>New moons, planetary shifts, and sky notes — delivered to your inbox each month.</p>
+      <div class="input-row">
+        <input type="email" placeholder="your@email.com" />
+        <button class="btn-primary" onclick="alert('Thank you! You\'re now a part of the cosmos. 🌙')">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ======================== ABOUT PAGE ======================== -->
+<div id="page-about" class="page">
+
+  <div class="about-hero">
+    <p class="page-label">Our Story</p>
+    <h1 class="page-title">Written in the Stars</h1>
+    <p class="page-subtitle">We're astrologers, researchers, and dreamers dedicated to making ancient celestial wisdom genuinely useful.</p>
+  </div>
+
+  <div class="about-body">
+
+    <h3>Why Celestia?</h3>
+    <p>Astrology is one of humanity's oldest frameworks for self-understanding — a language that maps the inner world onto the outer cosmos. At Celestia, we take it seriously. Not as a party trick or a meme, but as a nuanced, symbolic system that rewards deep study.</p>
+    <p>We founded Celestia in 2019 with a simple conviction: that astrology is most powerful when it's specific, honest, and delivered without mystical fog. Every reading we give is grounded in classical technique, communicated in plain language, and tailored to where you actually are in life.</p>
+
+    <hr class="divider" />
+
+    <h3>Our Approach</h3>
+    <p>We draw primarily from Hellenistic and Medieval astrological traditions — older, more structured methods that treat astrology as a craft rather than a vibe. We layer in modern psychological insights where they genuinely add depth.</p>
+    <p>We don't believe your Sun sign is your destiny. We believe your birth chart is a rich, layered portrait — and understanding even a small part of it more clearly can change how you move through the world.</p>
+
+    <hr class="divider" />
+
+    <h3>The Team</h3>
+    <div class="team-grid">
+      <div class="team-member">
+        <div class="member-avatar">🌙</div>
+        <p class="member-name">Ananya Kapoor</p>
+        <p class="member-role">Founder · Hellenistic Astrology</p>
+      </div>
+      <div class="team-member">
+        <div class="member-avatar">☀️</div>
+        <p class="member-name">Rohan Mehta</p>
+        <p class="member-role">Transit Specialist</p>
+      </div>
+      <div class="team-member">
+        <div class="member-avatar">⭐</div>
+        <p class="member-name">Sara Lund</p>
+        <p class="member-role">Synastry & Relationships</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <h3>What We Believe</h3>
+    <div class="values-grid">
+      <div class="value-item">
+        <h4>Honesty over comfort</h4>
+        <p>We don't tell you what you want to hear. We tell you what the chart says — and help you make sense of it.</p>
+      </div>
+      <div class="value-item">
+        <h4>Depth over simplicity</h4>
+        <p>Your chart has twelve houses, ten planets, and dozens of aspects. We go there.</p>
+      </div>
+      <div class="value-item">
+        <h4>Agency, always</h4>
+        <p>The stars incline, they do not compel. You remain the author of your life.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======================== CONTACT PAGE ======================== -->
+<div id="page-contact" class="page">
+
+  <div class="about-hero">
+    <p class="page-label">Get in Touch</p>
+    <h1 class="page-title">Let's Talk Stars</h1>
+    <p class="page-subtitle">Have a question, want to book a reading, or just want to say hello? We'd love to hear from you.</p>
+  </div>
+
+  <div class="contact-layout">
+    <div class="contact-info">
+      <h3>Reach Us</h3>
+      <p>We respond to all messages within 2 business days. For booking enquiries, expect a reply within 24 hours.</p>
+
+      <div class="contact-detail">
+        <span class="icon">📧</span>
+        <div>
+          <p class="info-label">Email</p>
+          <p class="info-value">hello@celestia-astro.com</p>
+        </div>
+      </div>
+
+      <div class="contact-detail">
+        <span class="icon">📱</span>
+        <div>
+          <p class="info-label">WhatsApp</p>
+          <p class="info-value">+91 98765 43210</p>
+        </div>
+      </div>
+
+      <div class="contact-detail">
+        <span class="icon">🕐</span>
+        <div>
+          <p class="info-label">Office Hours</p>
+          <p class="info-value">Mon – Sat, 10am – 6pm IST</p>
+        </div>
+      </div>
+
+      <div class="contact-detail">
+        <span class="icon">🌍</span>
+        <div>
+          <p class="info-label">Readings Available</p>
+          <p class="info-value">Worldwide via video call</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <h3>Send a Message</h3>
+
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Full name" />
+      </div>
+
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="your@email.com" />
+      </div>
+
+      <div class="form-group">
+        <label>What Are You Looking For?</label>
+        <select>
+          <option value="">Select a service</option>
+          <option>Birth Chart Reading</option>
+          <option>Solar Return</option>
+          <option>Synastry & Compatibility</option>
+          <option>Transit Forecast</option>
+          <option>General Enquiry</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Your Message</label>
+        <textarea placeholder="Tell us a little about what you're hoping to explore..."></textarea>
+      </div>
+
+      <button class="btn-primary" style="width:100%;" onclick="alert('Message sent! We\'ll be in touch within 2 business days. ✨')">Send Message</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== FAQ PAGE ======================== -->
+<div id="page-faq" class="page">
+
+  <div class="about-hero">
+    <p class="page-label">Frequently Asked</p>
+    <h1 class="page-title">Questions & Answers</h1>
+    <p class="page-subtitle">Everything you've wondered about astrology, readings, and how Celestia works.</p>
+  </div>
+
+  <div class="faq-body">
+
+    <div class="faq-category">
+      <p class="faq-category-title">About Astrology</p>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Is astrology actually real? What's it based on?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">Astrology is a symbolic language — a system for meaning-making that maps celestial positions onto human experience. Whether it's "real" in a scientific sense depends on your framework. What we do know is that millions of people across thousands of years have found it deeply useful for self-reflection, timing decisions, and understanding personality. We take it seriously as a craft, not a magic formula.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>What's the difference between Western and Vedic astrology?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">Western astrology is based on the tropical zodiac (tied to Earth's seasons), while Vedic (Jyotish) astrology uses the sidereal zodiac (tied to fixed star positions). They also differ in techniques, emphasis, and purpose. At Celestia, we practice Western astrology rooted in Hellenistic traditions, though we respect Vedic work deeply and can recommend practitioners if that's what you're seeking.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Is my Sun sign really the most important thing in my chart?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">Not necessarily. Your Sun sign reflects your core identity and life purpose, but your Rising sign (Ascendant) shapes how you appear and how you navigate the world — and many astrologers argue it's equally or more important. Your Moon sign governs your emotional inner world. A full birth chart reading considers all of these and far more.</div>
+      </div>
+    </div>
+
+    <div class="faq-category">
+      <p class="faq-category-title">Booking & Readings</p>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>What do I need to book a birth chart reading?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">You'll need your date of birth, exact time of birth (even an approximate time helps, but the more precise the better), and your place of birth. The birth time is especially important for calculating your Rising sign and the house positions in your chart. If you don't know your birth time, we can still do a solar chart reading — just let us know.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>How long does a reading take?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">Standard readings run 60–75 minutes via video call. We send you a recording afterward so you can revisit the insights at your own pace. Deep-dive readings (birth chart + transits + solar return) can run 90 minutes. Written reports are also available if you prefer reading over talking.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Do you offer readings for couples?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">Yes — our Synastry reading compares two birth charts to reveal the dynamics, strengths, and friction points between two people. This works for romantic partners, close friends, or business partners. Both people should ideally be present for the call, and we'll need birth data for both.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>What's your cancellation and rescheduling policy?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">You can reschedule up to 24 hours before your appointment with no charge. Cancellations made with less than 24 hours' notice are non-refundable, though we'll offer you a credit toward a future booking. Life happens — just let us know as early as you can.</div>
+      </div>
+    </div>
+
+    <div class="faq-category">
+      <p class="faq-category-title">Getting Started</p>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>I'm completely new to astrology. Where should I begin?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">Start with a birth chart reading — it's the foundation of everything. You'll walk away with an understanding of your Sun, Moon, and Rising signs, your chart's dominant themes, and an introduction to the twelve houses. From there, you'll have enough grounding to explore further on your own or book follow-up sessions.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Can you teach me how to read my own chart?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">Absolutely. We offer educational readings specifically designed to walk you through your chart step by step, explaining the technique as we go. It takes a bit longer but leaves you with real skills. Mention this when you book, and we'll tailor the session accordingly.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Do you offer gift readings?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">Yes! Gift readings are available for all of our services. Reach out via the Contact page and we'll send you a gift certificate you can pass along. The recipient books their own appointment at a time that suits them.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-logo">✦ Celestia</p>
+  <ul class="footer-links">
+    <li><a onclick="showPage('home')">Home</a></li>
+    <li><a onclick="showPage('about')">About</a></li>
+    <li><a onclick="showPage('contact')">Contact</a></li>
+    <li><a onclick="showPage('faq')">FAQ</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Celestia Astrology. All rights reserved. The stars guide — you decide.</p>
+</footer>
+
+<script>
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.getElementById('nav-' + name).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  }
+</script>
+
+</body>
+</html>
